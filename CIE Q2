@@ -1,0 +1,41 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+#define MAX 100
+
+int isPalindrome(char str[]) {
+    char stack[MAX], cleaned[MAX];
+    int top = -1, len = 0;
+
+    // Remove spaces and punctuation, convert to lowercase
+    for (int i = 0; str[i]; i++) {
+        if (isalnum(str[i]))
+            cleaned[len++] = tolower(str[i]);
+    }
+    cleaned[len] = '\0';
+
+    // Push all characters into stack
+    for (int i = 0; i < len; i++)
+        stack[++top] = cleaned[i];
+
+    // Pop and compare
+    for (int i = 0; i < len; i++) {
+        if (stack[top--] != cleaned[i])
+            return 0;
+    }
+    return 1;
+}
+
+int main() {
+    char str[MAX];
+    printf("Enter a string: ");
+    gets(str);
+
+    if (isPalindrome(str))
+        printf("Palindrome\n");
+    else
+        printf("Not Palindrome\n");
+
+    return 0;
+}
