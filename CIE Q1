@@ -1,0 +1,20 @@
+#include <stdio.h>
+
+struct Date {
+    int day, month, year;
+};
+
+struct Holder {
+    char name[50];
+    struct Date dob;
+    char address[100];
+    char nationality[30];
+};
+
+struct Passport {
+    char passportNumber[15];
+    struct Date issueDate;
+    struct Date expiryDate;
+    char issuingCountry[30];
+    struct Holder holder;
+};
