@@ -1,0 +1,29 @@
+#include <stdio.h>
+
+int fib_recursive(int n) {
+    if (n <= 1) return n;
+    return fib_recursive(n-1) + fib_recursive(n-2);
+}
+
+void fib_iterative(int n) {
+    int a = 0, b = 1, c;
+    printf("%d %d ", a, b);
+    for (int i = 2; i < n; i++) {
+        c = a + b;
+        printf("%d ", c);
+        a = b;
+        b = c;
+    }
+}
+
+int main() {
+    int n = 10;
+    printf("Iterative Fibonacci:\n");
+    fib_iterative(n);
+
+    printf("\n\nRecursive Fibonacci:\n");
+    for (int i = 0; i < n; i++)
+        printf("%d ", fib_recursive(i));
+
+    return 0;
+}
