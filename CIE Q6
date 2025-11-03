@@ -1,0 +1,45 @@
+#include <stdio.h>
+#define SIZE 100
+
+int Queue[SIZE];
+int front = 0, rear = 0;
+
+void enqueue(int value) {
+    if (rear == SIZE - 1)
+        printf("Queue Overflow\n");
+    else {
+        rear++;
+        Queue[rear] = value;
+        printf("%d inserted\n", value);
+    }
+}
+
+void dequeue() {
+    if (front == rear)
+        printf("Queue Underflow\n");
+    else {
+        front++;
+        printf("%d deleted\n", Queue[front]);
+    }
+}
+
+void display() {
+    if (front == rear)
+        printf("Queue is empty\n");
+    else {
+        printf("Queue elements: ");
+        for (int i = front + 1; i <= rear; i++)
+            printf("%d ", Queue[i]);
+        printf("\n");
+    }
+}
+
+int main() {
+    enqueue(10);
+    enqueue(20);
+    enqueue(30);
+    display();
+    dequeue();
+    display();
+    return 0;
+}
