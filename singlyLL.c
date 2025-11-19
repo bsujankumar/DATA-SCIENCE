@@ -1,0 +1,119 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct Node{
+    int data;
+    struct Node *next;
+}Node;
+
+Node *head = NULL;      
+Node *tail = NULL;
+
+void addFirst(int value){
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    newNode -> data = value;
+    newNode -> next = NULL;
+    if(head == NULL){           
+        head = tail = newNode;
+        return;
+    }
+    newNode -> next = head;
+    head = newNode;
+}
+
+void addLast(int value){
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    newNode -> data = value;
+    newNode -> next = NULL;
+    if(head == NULL){          
+        head = tail = newNode;
+        return;
+    }
+    tail -> next = newNode;
+    tail = newNode;
+}
+
+void addMiddle(int idx, int value){
+    if(idx == 0){                        
+        addFirst(value);
+        return;
+    }
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    newNode -> data = value;
+    newNode -> next = NULL;
+    Node *temp = head;
+    int i = 0;
+    while(i < idx - 1 && temp != NULL){ 
+        temp = temp -> next;
+        i++;
+    }
+    if(temp == NULL){
+        printf("Index out of range \n");
+    }
+    newNode -> next = temp -> next;
+    temp -> next = newNode;
+    if(newNode -> next == NULL){    
+        tail = newNode;
+    }
+}
+int removeFirst(){
+    if(head == NULL){
+        printf("Linked list is empty \n");
+        return -1;
+    }
+    if(head == tail){
+        int value = head -> data;
+        head = tail = NULL;
+        return value;
+    }
+    int value = head -> data;
+    head = head -> next;
+    return value;
+}
+
+int removeLast(){
+    if(head == NULL){
+        printf("Linked list is empty \n");
+        return -1;
+    }
+    if(head == tail){
+        int value = head -> data;
+        head = tail = NULL;
+        return value;
+    }
+    Node *prev = head;
+    while(prev -> next != tail){
+        prev = prev -> next;
+    }
+    int value = tail -> data;
+    prev -> next = NULL;
+    tail = prev;
+    return value;
+}
+void display(){
+    if(head == NULL){
+        printf("Linked List is empty \n");
+        return;
+    }
+    Node *temp = head;
+    while(temp != NULL){
+        printf("%d -> ",temp -> data);
+        temp = temp -> next;
+    }
+    printf("NULL\n");
+}
+
+int main(){
+    addFirst(30);
+    addFirst(20);
+    addFirst(10);
+    addLast(50);
+    addLast(60);
+    addLast(70);
+    addMiddle(3,40);  
+    display();
+    removeFirst();
+    removeLast();
+    display();
+
+}
