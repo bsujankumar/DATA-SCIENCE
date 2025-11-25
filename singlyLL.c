@@ -1,119 +1,72 @@
 #include<stdio.h>
 #include<stdlib.h>
-
 typedef struct Node{
     int data;
     struct Node *next;
 }Node;
-
-Node *head = NULL;      
-Node *tail = NULL;
-
-void addFirst(int value){
-    Node *newNode = (Node *)malloc(sizeof(Node));
-    newNode -> data = value;
-    newNode -> next = NULL;
-    if(head == NULL){           
-        head = tail = newNode;
-        return;
+void addFirst(Node **head, int value){
+    Node *new_node = (Node*)malloc(sizeof(Node));
+    new_node -> data = value;
+    if(*head == NULL){
+      *head = new_node;
+      return;
     }
-    newNode -> next = head;
-    head = newNode;
+    new_node -> next = *head;
+    *head = new_node;
 }
-
-void addLast(int value){
-    Node *newNode = (Node *)malloc(sizeof(Node));
-    newNode -> data = value;
-    newNode -> next = NULL;
-    if(head == NULL){          
-        head = tail = newNode;
-        return;
+void addLast(Node **head, int value){
+    Node *new_node = (Node*)malloc(sizeof(Node));
+    new_node -> data = value;
+    new_node -> next = NULL;
+    if(*head == NULL){
+      *head = new_node;
+      return;
     }
-    tail -> next = newNode;
-    tail = newNode;
+    Node *temp = *head;
+    while(temp->next != NULL){
+        temp = temp->next;
+    }
+    temp -> next = new_node;
 }
-
-void addMiddle(int idx, int value){
-    if(idx == 0){                        
-        addFirst(value);
+void addPos(Node **head, int pos, int value){
+    if(pos == 1){
+        addFirst(head, value);
         return;
     }
-    Node *newNode = (Node *)malloc(sizeof(Node));
-    newNode -> data = value;
-    newNode -> next = NULL;
-    Node *temp = head;
-    int i = 0;
-    while(i < idx - 1 && temp != NULL){ 
+    Node *temp = *head;
+    int i = 1;
+    while(i < pos - 1 && temp -> next != NULL){
         temp = temp -> next;
         i++;
     }
-    if(temp == NULL){
-        printf("Index out of range \n");
-    }
-    newNode -> next = temp -> next;
-    temp -> next = newNode;
-    if(newNode -> next == NULL){    
-        tail = newNode;
-    }
-}
-int removeFirst(){
-    if(head == NULL){
-        printf("Linked list is empty \n");
-        return -1;
-    }
-    if(head == tail){
-        int value = head -> data;
-        head = tail = NULL;
-        return value;
-    }
-    int value = head -> data;
-    head = head -> next;
-    return value;
-}
-
-int removeLast(){
-    if(head == NULL){
-        printf("Linked list is empty \n");
-        return -1;
-    }
-    if(head == tail){
-        int value = head -> data;
-        head = tail = NULL;
-        return value;
-    }
-    Node *prev = head;
-    while(prev -> next != tail){
-        prev = prev -> next;
-    }
-    int value = tail -> data;
-    prev -> next = NULL;
-    tail = prev;
-    return value;
-}
-void display(){
-    if(head == NULL){
-        printf("Linked List is empty \n");
+    if(i < pos -1){
+        printf("Position out of range \n");
         return;
     }
-    Node *temp = head;
-    while(temp != NULL){
-        printf("%d -> ",temp -> data);
+    if(temp -> next == NULL){
+        addLast(head, value);
+        return;
+    }
+    Node *newNode = (Node*)malloc(sizeof(Node));
+    newNode -> data = value;
+    newNode -> next = temp -> next;
+    temp -> next = newNode;
+}
+void display(Node **head){
+    Node *temp = *head;
+    while(temp!= NULL){
+        printf("%d -> ",temp->data);
         temp = temp -> next;
     }
-    printf("NULL\n");
+    printf("NULL");
 }
-
 int main(){
-    addFirst(30);
-    addFirst(20);
-    addFirst(10);
-    addLast(50);
-    addLast(60);
-    addLast(70);
-    addMiddle(3,40);  
-    display();
-    removeFirst();
-    removeLast();
-    display();
+    Node *head = NULL;
+    addFirst(&head,20);
+    addFirst(&head,10);
+    addLast(&head,40);
+    addLast(&head,50);
+    display(&head);
+
 
 }
