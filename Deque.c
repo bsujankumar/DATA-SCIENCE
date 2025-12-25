@@ -4,10 +4,10 @@ int queue[N];
 int front = -1;
 int rear = -1;
 
-char isFull(){
+int isFull(){
     return ((rear+1)%N == front);
 }
-char isEmpty(){
+int isEmpty(){
     return (front == -1 && rear == -1);
 }
 
@@ -111,3 +111,4 @@ int main(){
         }
     }
 }
+
